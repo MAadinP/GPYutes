@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Text Extractor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #output {
+            margin-top: 20px;
+            white-space: pre-wrap;
+            background: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Upload a PDF File</h1>
+    <form id="uploadForm">
+        <input type="file" name="file" id="file" accept="application/pdf" required>
+        <button type="submit">Upload</button>
+    </form>
+
+    <div id="output"></div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', function (e) {
+            e.preventDefault(); // Prevent the form from submitting normally
+
+            const fileInput = document.getElementById('file');
+            const outputDiv = document.getElementById('output');
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    outputDiv.innerHTML = `<p class="error">${data.error}</p>`;
+                } else {
+                    outputDiv.innerHTML = `<pre>${data.text}</pre>`;
+                }
+            })
+            .catch(error => {
+                outputDiv.innerHTML = `<p class="error">An error occurred: ${error.message}</p>`;
+            });
+        });
+    </script>
+</body>
+</html>
