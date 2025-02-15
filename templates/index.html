@@ -19,6 +19,15 @@
         .error {
             color: red;
         }
+        #topics {
+            font-weight: bold;
+            color: #007bff;
+        }
+        .topic-image {
+            margin-top: 10px;
+            max-width: 100%;
+            height: auto;
+        }
     </style>
 </head>
 <body>
@@ -48,7 +57,20 @@
                 if (data.error) {
                     outputDiv.innerHTML = `<p class="error">${data.error}</p>`;
                 } else {
-                    outputDiv.innerHTML = `<pre>${data.text}</pre>`;
+                    // Display the extracted text
+                    let textHTML = `<h3>Extracted Text:</h3><pre>${data.text}</pre>`;
+
+                    // Display key topics and images
+                    let topicsHTML = `<h3>Key Topics:</h3><ul id="topics">`;
+                    data.key_topics.forEach(topic => {
+                        topicsHTML += `<li>${topic}</li>`;
+                        if (data.topic_images && data.topic_images[topic]) {
+                            topicsHTML += `<img src="${data.topic_images[topic]}" alt="${topic}" class="topic-image">`;
+                        }
+                    });
+                    topicsHTML += `</ul>`;
+
+                    outputDiv.innerHTML = textHTML + topicsHTML;
                 }
             })
             .catch(error => {
