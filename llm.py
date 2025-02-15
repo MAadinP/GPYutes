@@ -1,8 +1,10 @@
 from openai import OpenAI
+import os
+from dotenv import load_dotenv
 
-# Initialize the OpenAI client
-open_ai_key = "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"
-client = OpenAI(api_key = open_ai_key)
+load_dotenv()
+
+client = OpenAI(api_key = os.getenv("OPENAI_API_KEY"))
 
 def get_key_topics(text):
     """Send extracted text to Claude to get key topics."""
