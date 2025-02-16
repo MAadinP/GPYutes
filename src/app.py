@@ -87,7 +87,7 @@ def upload_file():
     except Exception as e:
         print(f"Error occurred: {str(e)}")
         # Clean up temp file if it exists
-        if os.path.exist    s("temp.pdf"):
+        if os.path.exists("temp.pdf"):
             print("Cleaning up temporary file after error...")
             os.remove("temp.pdf")
         return jsonify({"error": str(e)}), 500
