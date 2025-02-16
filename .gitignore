@@ -2,3 +2,10 @@
 __pycache__/
 .env
 .pdf
+.json
+.txt
+.md
+.html
+.css
+.js
+.png
